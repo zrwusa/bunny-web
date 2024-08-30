@@ -1,0 +1,7 @@
+.label {
+    @apply input input-bordered flex items-center gap-2;
+}
+
+.operations {
+    @apply flex justify-between;
+}

@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import {createContext, Dispatch, SetStateAction} from "react";
 
 export type RightSidebarSchema = {
     [key: string]: {
@@ -20,11 +20,11 @@ export type RightSidebarConfig = {
 
 export type RightSidebarContextValue = {
     config: RightSidebarConfig;
-    setConfig: React.Dispatch<React.SetStateAction<RightSidebarConfig>>;
+    setConfig: Dispatch<SetStateAction<RightSidebarConfig>>;
     schema: RightSidebarSchema;
-    setSchema: React.Dispatch<React.SetStateAction<RightSidebarSchema>>;
+    setSchema: Dispatch<SetStateAction<RightSidebarSchema>>;
     events?: RightSidebarEvents;
-    setEvents: React.Dispatch<React.SetStateAction<RightSidebarEvents>>;
+    setEvents: Dispatch<SetStateAction<RightSidebarEvents>>;
 };
 
 export const RightSidebarContext = createContext<RightSidebarContextValue>({

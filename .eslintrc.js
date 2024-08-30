@@ -1,8 +1,19 @@
 module.exports = {
-    "extends": ["next/core-web-vitals"],
+    "extends": ["next/core-web-vitals","eslint:recommended",
+        "plugin:@typescript-eslint/recommended"],
+    "plugins": ["@typescript-eslint"],
     "ignorePatterns": [".next/", "lib/", "dist/", "coverage/", "docs/", "trash/"],
     "rules": {
-        "no-unused-vars": "warn",
+        // "no-unused-vars": "warn",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
+        ],
         "lines-around-comment": [
             "warn",
             {

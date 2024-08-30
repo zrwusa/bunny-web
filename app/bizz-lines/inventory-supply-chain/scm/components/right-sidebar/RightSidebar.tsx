@@ -1,6 +1,6 @@
 "use client"
 
-import {ChangeEvent, useContext, useState} from "react";
+import {ChangeEvent, MouseEventHandler, useContext, useState} from "react";
 import styles from "./RightSidebar.module.css";
 import {OkPairs, RightSidebarContext} from "./RightSidebarContext";
 
@@ -23,14 +23,14 @@ export const RightSidebar = () => {
             }
         }
     }
-    const handleCancel = () => {
+    const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
         setConfig({isOpen: false});
-        events?.onCancel && events.onCancel();
+        if (events?.onCancel) events.onCancel();
     }
 
-    const handleOk = () => {
+    const handleOk: MouseEventHandler<HTMLButtonElement> = () => {
         setConfig({isOpen: false});
-        events?.onOK && events.onOK(fields);
+        if (events?.onOK) events.onOK(fields);
     }
 
     return (config?.isOpen ? <aside>

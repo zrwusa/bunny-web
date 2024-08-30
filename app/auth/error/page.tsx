@@ -3,3 +3,5 @@ const AuthError = () => {
         <h1>Auth Error</h1>
     </section>
 }
+
+export default AuthError;

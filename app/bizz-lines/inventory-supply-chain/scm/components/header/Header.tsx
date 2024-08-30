@@ -4,6 +4,7 @@ import authConf from "../../../../../../config/auth";
 import {SignOutWithProviders} from "../../../../../../shared/components/auth/sign-out";
 import {Sidebar} from "../sidebar";
 import {SignInLink} from "../../../../../../shared/components/auth/sign-in";
+import Image from "next/image";
 
 
 export const Header = async () => {
@@ -26,12 +27,17 @@ export const Header = async () => {
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
                             {session.user ?
-                                <img
+                                <Image
                                     alt="User avator"
                                     src={session.user.image || ''}
+                                    width={100}
+                                    height={100}
                                 /> :
-                                <img alt="User avator"
-                                     src={''}/>
+                                <Image alt="User avator"
+                                     src=""
+                                       width={100}
+                                       height={100}
+                                />
                             }
                         </div>
                     </div>

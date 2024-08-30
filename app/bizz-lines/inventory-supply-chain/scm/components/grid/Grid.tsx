@@ -57,7 +57,7 @@ const Grid = (props: { data?: GridDataRow[] }) => {
 
     const {setConfig, setSchema, setEvents} = useContext(RightSidebarContext);
 
-    const handleOpenRightSidebar = ({}: GridDataRow) => {
+    const handleOpenRightSidebar = () => {
         setConfig({isOpen: true});
 
         setEvents({
@@ -132,14 +132,7 @@ const Grid = (props: { data?: GridDataRow[] }) => {
 
                     <td>{color}</td>
                     <th>
-                        <button className="btn btn-ghost btn-xs" onClick={() => handleOpenRightSidebar({
-                            id,
-                            name,
-                            vendor,
-                            image,
-                            country,
-                            color
-                        })}>details
+                        <button className="btn btn-ghost btn-xs" onClick={() => handleOpenRightSidebar()}>details
                         </button>
                     </th>
                 </tr>)

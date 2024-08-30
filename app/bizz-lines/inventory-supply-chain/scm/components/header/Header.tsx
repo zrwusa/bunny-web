@@ -6,7 +6,6 @@ import {Sidebar} from "../sidebar";
 import {SignInLink} from "../../../../../../shared/components/auth/sign-in";
 import Image from "next/image";
 
-
 export const Header = async () => {
 
     const session = await getServerSession(authConf);
@@ -34,7 +33,7 @@ export const Header = async () => {
                                     height={100}
                                 /> :
                                 <Image alt="User avator"
-                                     src=""
+                                       src=""
                                        width={100}
                                        height={100}
                                 />

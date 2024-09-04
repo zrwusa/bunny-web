@@ -1,10 +1,10 @@
-export const metadata = {
-    title: "App Router",
-};
-
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
+
+export const metadata = {
+    title: "App Router",
+};
 
 export default function Home() {
     return (
@@ -14,11 +14,15 @@ export default function Home() {
                     Welcome to Bunny
                 </h1>
 
-
                 <div className={styles.grid}>
                     <Link href="/about" className={styles.card}>
                         <h2>About Page &rarr;</h2>
-                        <p>Cypress will test if this link is working.</p>
+                    </Link>
+
+                </div>
+                <div className={styles.grid}>
+                    <Link href="/bizz-lines/inventory-supply-chain/scm" className={styles.card}>
+                        <h2>SCM Page &rarr;</h2>
                     </Link>
 
                 </div>

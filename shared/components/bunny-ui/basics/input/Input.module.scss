@@ -1,0 +1,10 @@
+.input {
+  @apply transition-all duration-200 ease-in-out;
+  &:focus {
+    @apply border-blue-500 shadow-md;
+  }
+}
+
+.error {
+  @apply border-red-500 text-red-600;
+}

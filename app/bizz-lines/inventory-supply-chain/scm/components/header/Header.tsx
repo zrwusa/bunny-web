@@ -2,9 +2,11 @@ import React from "react";
 import {getServerSession} from "next-auth";
 import authConf from "../../../../../../config/auth";
 import {SignOutWithProviders} from "../../../../../../shared/components/auth/sign-out";
-import {Sidebar} from "../sidebar";
 import {SignInLink} from "../../../../../../shared/components/auth/sign-in";
-import Image from "next/image";
+import {MenuButton} from "./MenuButton";
+import Avatar from "../../../../../../shared/components/bunny-ui/basics/avatar/Avatar";
+import Link from "next/link";
+import {Button, Input} from "../../../../../../shared/components/bunny-ui";
 
 export const Header = async () => {
 
@@ -13,44 +15,31 @@ export const Header = async () => {
 
     return <div className="navbar bg-base-100">
         <div className="flex-1 content-start">
-            <Sidebar></Sidebar>
-
+            <MenuButton/>
             <a className="btn btn-ghost text-xl">Bunny SCM</a>
         </div>
         <div className="flex-none gap-2">
             <div className="form-control">
-                <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto"/>
+                <Input></Input>
             </div>
+            <Button variant="accent">Button</Button>
             {session ?
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            {session.user ?
-                                <Image
-                                    alt="User avator"
-                                    src={session.user.image || ''}
-                                    width={100}
-                                    height={100}
-                                /> :
-                                <Image alt="User avator"
-                                       src=""
-                                       width={100}
-                                       height={100}
-                                />
-                            }
-                        </div>
-                    </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li>
-                            <a className="justify-between">Profile</a>
-                        </li>
-                        <li><a>Settings</a></li>
-                        <li><SignOutWithProviders/></li>
+                <>
+                    {
+                        session.user ? <Avatar src={session.user.image} alt="user image">
+                            <ul>
+                                <li>
+                                    <Link href="/bizz-lines/inventory-supply-chain/scm/profile">Profile</Link>
+                                </li>
+                                <li>
+                                    <Link href="/bizz-lines/inventory-supply-chain/scm/settings">settings</Link>
 
-                    </ul>
-                </div>
+                                </li>
+                                <li><SignOutWithProviders/></li>
+                            </ul>
+                        </Avatar> : null
+                    }
+                </>
                 : <SignInLink>Sign in</SignInLink>
             }
 

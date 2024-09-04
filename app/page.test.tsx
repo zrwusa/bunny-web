@@ -5,6 +5,6 @@ import Page from "./page";
 test("App Router: Works with Server Components", () => {
     render(<Page/>);
     expect(
-        screen.getByRole("heading", { level: 1, name: "Welcome to Bunny" }),
+        screen.getByRole("heading", {level: 1, name: "Welcome to Bunny"}),
     ).toBeDefined();
 });

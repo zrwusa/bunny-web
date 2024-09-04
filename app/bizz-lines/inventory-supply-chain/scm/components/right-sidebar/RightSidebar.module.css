@@ -1,5 +1,9 @@
 .label {
-    @apply input input-bordered flex items-center gap-2;
+    @apply flex items-center gap-2;
+}
+
+.input {
+    @apply grow;
 }
 
 .operations {

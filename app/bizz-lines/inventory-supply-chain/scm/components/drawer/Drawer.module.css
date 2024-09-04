@@ -1,0 +1,22 @@
+
+.drawerContainer {
+    @apply relative transition-all duration-300 ease-in-out;
+    width: 20em;
+}
+
+.containerHidden {
+    @apply w-0;
+}
+
+.drawer {
+    @apply absolute h-full overflow-hidden transition-transform duration-300 ease-in-out p-4;
+    width: 20em;
+}
+
+.drawerHiddenLeft {
+    @apply -translate-x-full;
+}
+
+.drawerHiddenRight {
+    @apply translate-x-full;
+}

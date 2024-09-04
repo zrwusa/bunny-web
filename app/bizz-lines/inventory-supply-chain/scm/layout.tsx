@@ -3,6 +3,7 @@ import {Main} from "./components/main";
 import {Footer} from "./components/footer";
 import {HTMLAttributes, ReactNode} from "react";
 import {Metadata} from "next";
+import DrawerProvider from "./components/drawer/DrawerProvider";
 
 
 export interface ScmLayoutProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,8 +17,11 @@ export const metadata: Metadata = {
 
 const ScmLayout = ({children}: ScmLayoutProps) => {
     return <div className="flex flex-col h-screen">
-        <Header/>
-        <Main>{children}</Main>
+        <DrawerProvider>
+            <Header/>
+            <Main>{children}</Main>
+        </DrawerProvider>
+
 
         <Footer/>
     </div>

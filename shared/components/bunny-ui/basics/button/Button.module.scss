@@ -1,0 +1,57 @@
+
+.button {
+  @apply inline-flex items-center justify-center;
+
+  &:hover {
+    @apply opacity-90;
+  }
+
+  &:active {
+    @apply opacity-80;
+  }
+}
+
+// Variants
+.primary {
+  @apply bg-sky-600 text-white;
+
+}
+
+.secondary {
+  @apply bg-emerald-500 text-white;
+
+  &:hover {
+    @apply bg-emerald-600;
+  }
+}
+
+.accent {
+  @apply bg-teal-400 text-white;
+
+  &:hover {
+    @apply bg-teal-500;
+  }
+}
+
+// Sizes
+.small {
+  @apply px-3 py-1 text-sm;
+}
+
+.medium {
+  @apply px-4 py-2 text-base;
+}
+
+.large {
+  @apply px-6 py-3 text-lg;
+}
+
+// Loading state
+.loading {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+// Disabled state
+.disabled {
+  @apply opacity-50 cursor-not-allowed;
+}

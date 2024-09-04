@@ -3,6 +3,7 @@
 import {ChangeEvent, MouseEventHandler, useContext, useState} from "react";
 import styles from "./RightSidebar.module.css";
 import {OkPairs, RightSidebarContext} from "./RightSidebarContext";
+import {Drawer} from "../drawer";
 
 export const RightSidebar = () => {
     const {schema, config, setConfig, events} = useContext(RightSidebarContext);
@@ -33,27 +34,26 @@ export const RightSidebar = () => {
         if (events?.onOK) events.onOK(fields);
     }
 
-    return (config?.isOpen ? <aside>
+    return (
+        <Drawer isOpen={config.isOpen} direction="right">
             {
                 schema ?
                     Object.keys(schema).map(key => (
-                        <label key={key}
-                               className={styles.label}>
+                        <label className={styles.label} key={key}>
                             {key}
-                            <input type="text" className="grow" placeholder={schema[key].placeholder} value={fields[key]}
+                            <input className={styles.input} type="text" placeholder={schema[key].placeholder}
+                                   value={fields[key] || ''}
                                    onChange={(e) => handleFieldChange(e, key)}/>
                         </label>
                     )) :
                     null
             }
-            <section className={styles.operations}>
-                <button className="btn" onClick={handleCancel}>Cancel</button>
-                <button className="btn btn-primary" onClick={handleOk}>Ok</button>
-            </section>
-
-
-        </aside>
-        : null)
+            <div className={styles.operations}>
+                <button onClick={handleCancel}>Cancel</button>
+                <button onClick={handleOk}>Ok</button>
+            </div>
+        </Drawer>
+    )
 };
 
 export default RightSidebar;

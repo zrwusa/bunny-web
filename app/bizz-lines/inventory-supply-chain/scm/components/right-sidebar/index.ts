@@ -1,3 +1,3 @@
 export * from "./RightSidebar";
 export * from "./RightSidebarContext";
-export * from "./RightSidebarContextProvider";
+export * from "./RightSidebarProvider";

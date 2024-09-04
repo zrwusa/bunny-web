@@ -5,13 +5,14 @@ module.exports = {
         "plugin:@typescript-eslint/recommended"
     ],
     "plugins": ["@typescript-eslint"],
-    "ignorePatterns": [".next/", "lib/", "dist/", "coverage/", "docs/", "trash/"],
+    "ignorePatterns": ["node_modules", '*.config.js', '*.config.ts', ".next/", "coverage/", "docs/", "trash/"],
     "rules": {
         "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
         "lines-around-comment": [
             "warn",
             {

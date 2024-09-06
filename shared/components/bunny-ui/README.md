@@ -40,7 +40,7 @@
     </tr>
     <tr>
         <td>Structures</td>
-        <td>Row, Col, Grid, Container</td>
+        <td>Row, Col, DataGrid, Container</td>
         <td>No</td>
         <td>Yes</td>
         <td>No</td>

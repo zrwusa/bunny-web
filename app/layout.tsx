@@ -3,6 +3,7 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import {Redirect, Session} from "../shared/components/auth/session";
 import {ReactNode} from "react";
+import {ThemeProvider} from 'next-themes'
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -17,13 +18,15 @@ export default function RootLayout({
     children: ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
-        <Session>
-            <Redirect>
-                {children}
-            </Redirect>
-        </Session>
+        <ThemeProvider>
+            <Session>
+                <Redirect>
+                    {children}
+                </Redirect>
+            </Session>
+        </ThemeProvider>
         </body>
         </html>
     );

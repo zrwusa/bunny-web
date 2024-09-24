@@ -13,7 +13,7 @@ export const SignInLink = ({
                                onClick,
                                children,
                                isStoreRedirectPath = true,
-                               navTo = '/auth/sign-in',
+    navTo,
                                ...rest
                            }: SignInLink) => {
     const pathname = usePathname();
@@ -21,6 +21,8 @@ export const SignInLink = ({
 
     const handleNavToSignIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (isStoreRedirectPath) sessionStorage.setItem('REDIRECT_PATH', pathname);
+
+        if (!navTo) navTo = `/auth/sign-in?redirect_uri=${window.location.href}`;
         router.push(navTo);
         if (onClick) onClick(e);
 

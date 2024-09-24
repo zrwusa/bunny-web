@@ -1,10 +1,11 @@
 "use client"
 
 import {signIn} from "next-auth/react";
-import {ButtonHTMLAttributes, memo, MouseEventHandler, ReactNode} from "react";
+import {ButtonHTMLAttributes, memo, MouseEventHandler, ReactNode, useEffect} from "react";
 import styles from "./SignInWithProviders.module.css";
 import {toPascalCase} from "../../../utils";
 import {AuthProvider} from "../../../../types/shared/auth";
+import {useSearchParams} from 'next/navigation';
 
 
 export interface SignInWithProviderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -59,3 +60,26 @@ export const SignInWithProvider = memo(({
 });
 
 SignInWithProvider.displayName = 'SignInWithProvider';
+
+
+export const SignInViaBackend = () => {
+
+    const searchParams = useSearchParams();
+    const redirectUri = searchParams.get('redirect_uri');
+    const handleGoogleSignIn = () => {
+
+        // Redirect user to Google authentication route on NestJS server
+        window.location.href = `http://localhost:8080/auth/google?redirect_uri=${redirectUri}`;
+        // window.open(`http://localhost:8080/auth/google?redirect_uri=${redirectUri}`, 'googleLogin', 'width=600,height=600');
+
+    };
+
+    useEffect(() => {
+        // If the user is already logged in, corresponding logic may need to be processed
+    }, []);
+
+    return (
+        <button onClick={handleGoogleSignIn}>Sign in with Google Back End</button>
+
+    );
+}

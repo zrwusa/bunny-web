@@ -1,7 +1,9 @@
 const AuthError = () => {
-    return <section>
-        <h1>Auth Error</h1>
+  return (
+    <section>
+      <h1>Auth Error</h1>
     </section>
-}
+  );
+};
 
 export default AuthError;

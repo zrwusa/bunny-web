@@ -6,6 +6,7 @@
     "start": "next start",
     "test": "vitest --run",
     "test:watch": "vitest",
+    "gen:ts-proto": "grpc_tools_node_protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./shared/grpc/generated --ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false --proto_path=./shared/grpc/proto shared/grpc/proto/*.proto ",
     "lint": "next lint",
     "format": "prettier --write \"app/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\"",
     "check": "tsc --noEmit",
@@ -15,14 +16,15 @@
     "component:headless": "cypress run --component"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.11.3",
-    "@grpc/proto-loader": "^0.7.13",
     "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-query": "^5.56.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "next": "latest",
     "next-auth": "^4.24.7",
     "next-redux-wrapper": "^8.1.0",
     "next-themes": "^0.3.0",
+    "nice-grpc": "^2.1.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
@@ -46,10 +48,12 @@
     "cypress": "^13.14.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.7",
+    "grpc-tools": "^1.12.4",
     "jsdom": "^25.0.0",
     "prettier": "^3.3.3",
     "start-server-and-test": "^2.0.5",
     "tailwindcss": "^3.4.10",
+    "ts-proto": "^2.2.0",
     "typescript": "^5.5.0",
     "vitest": "^2.0.5"
   }

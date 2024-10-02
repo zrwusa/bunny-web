@@ -1,28 +1,37 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { apiWithAuth } from 'shared/api/api';
+import { Product } from 'shared/grpc/generated/product';
 
-interface User {
-  id: number;
-  name: string;
-}
-
-const fetchUsers = async (): Promise<User[]> => {
-  const response = await fetch('http://localhost:8080/api/users');
+const fetchProducts = async () => {
+  const response = await apiWithAuth<{data: Product[]}>(
+    '/bizz-lines/inventory-supply-chain/scm/api/products',
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch users');
+    throw new Error('Failed to fetch products');
   }
-  return response.json();
+  return (await response.json()).data;
 };
 
 export const ReactQueryExample = () => {
-  const { data, error, isLoading } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: fetchUsers,
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (error instanceof Error) return <p>Error loading data: {error.message}</p>;
 
-  return <ul>{data?.map((user) => <li key={user.id}>{user.name}</li>)}</ul>;
+  return (
+    <ul>
+      {data?.map(({ id, name, price, description }) => (
+        <li key={id}>
+          <span>{name}</span>
+          <span>{price}</span>
+          <span>{description}</span>
+        </li>
+      ))}
+    </ul>
+  );
 };

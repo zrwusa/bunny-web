@@ -5,7 +5,7 @@ import { withValidation } from '../../../../../middlewares/validation';
 
 async function handleGET() {
   const { products } = await productClient.getAllProducts({});
-  return NextResponse.json({ data: products }, { status: 200 });
+  return NextResponse.json({ data: products }, { status: 401 });
 }
 
 async function handlePOST(req: NextRequest) {

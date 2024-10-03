@@ -5,11 +5,11 @@ import { fetchDataSuccess, fetchDataFailure } from '../reducers/example-reducer'
 
 function* fetchDataSaga(): Generator<any, void, any> {
   try {
-    const response: Response = yield call(fetch, 'http://localhost:8080/data');
-    const data: any = yield response.json();
-    yield put(fetchDataSuccess(data)); // 派发成功的 action
+    const response: Response = yield call(fetch, '/bizz-lines/inventory-supply-chain/scm/api/products');
+    const body: any = yield response.json();
+    yield put(fetchDataSuccess(body.data));
   } catch (error: any) {
-    yield put(fetchDataFailure(error.message)); // 派发失败的 action
+    yield put(fetchDataFailure(error.message));
   }
 }
 

@@ -10,6 +10,7 @@ import { type CallContext, type CallOptions } from "nice-grpc-common";
 
 export const protobufPackage = "product";
 
+/** Product message definition */
 export interface Product {
   id: string;
   name: string;
@@ -17,18 +18,11 @@ export interface Product {
   description: string;
 }
 
+/** Request messages */
 export interface CreateProductRequest {
   name: string;
   price: number;
   description: string;
-}
-
-export interface ProductListResponse {
-  products: Product[];
-}
-
-export interface ProductResponse {
-  product: Product | undefined;
 }
 
 export interface ProductIdRequest {
@@ -36,6 +30,40 @@ export interface ProductIdRequest {
 }
 
 export interface Empty {
+}
+
+/** Define BlStack as a message */
+export interface BlStack {
+  method: string;
+  message: string;
+}
+
+/** Standardized bl-response format */
+export interface CreateProductResponse {
+  success: boolean;
+  serviceName: string;
+  layer: string;
+  code: string;
+  blStack: BlStack | undefined;
+  data: Product | undefined;
+}
+
+export interface GetAllProductsResponse {
+  success: boolean;
+  serviceName: string;
+  layer: string;
+  code: string;
+  blStack: BlStack | undefined;
+  data: Product[];
+}
+
+export interface GetProductByIdResponse {
+  success: boolean;
+  serviceName: string;
+  layer: string;
+  code: string;
+  blStack: BlStack | undefined;
+  data: Product | undefined;
 }
 
 function createBaseProduct(): Product {
@@ -231,124 +259,6 @@ export const CreateProductRequest: MessageFns<CreateProductRequest> = {
   },
 };
 
-function createBaseProductListResponse(): ProductListResponse {
-  return { products: [] };
-}
-
-export const ProductListResponse: MessageFns<ProductListResponse> = {
-  encode(message: ProductListResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    for (const v of message.products) {
-      Product.encode(v!, writer.uint32(10).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ProductListResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseProductListResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if (tag !== 10) {
-            break;
-          }
-
-          message.products.push(Product.decode(reader, reader.uint32()));
-          continue;
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): ProductListResponse {
-    return {
-      products: globalThis.Array.isArray(object?.products) ? object.products.map((e: any) => Product.fromJSON(e)) : [],
-    };
-  },
-
-  toJSON(message: ProductListResponse): unknown {
-    const obj: any = {};
-    if (message.products?.length) {
-      obj.products = message.products.map((e) => Product.toJSON(e));
-    }
-    return obj;
-  },
-
-  create(base?: DeepPartial<ProductListResponse>): ProductListResponse {
-    return ProductListResponse.fromPartial(base ?? {});
-  },
-  fromPartial(object: DeepPartial<ProductListResponse>): ProductListResponse {
-    const message = createBaseProductListResponse();
-    message.products = object.products?.map((e) => Product.fromPartial(e)) || [];
-    return message;
-  },
-};
-
-function createBaseProductResponse(): ProductResponse {
-  return { product: undefined };
-}
-
-export const ProductResponse: MessageFns<ProductResponse> = {
-  encode(message: ProductResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.product !== undefined) {
-      Product.encode(message.product, writer.uint32(10).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ProductResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseProductResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if (tag !== 10) {
-            break;
-          }
-
-          message.product = Product.decode(reader, reader.uint32());
-          continue;
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): ProductResponse {
-    return { product: isSet(object.product) ? Product.fromJSON(object.product) : undefined };
-  },
-
-  toJSON(message: ProductResponse): unknown {
-    const obj: any = {};
-    if (message.product !== undefined) {
-      obj.product = Product.toJSON(message.product);
-    }
-    return obj;
-  },
-
-  create(base?: DeepPartial<ProductResponse>): ProductResponse {
-    return ProductResponse.fromPartial(base ?? {});
-  },
-  fromPartial(object: DeepPartial<ProductResponse>): ProductResponse {
-    const message = createBaseProductResponse();
-    message.product = (object.product !== undefined && object.product !== null)
-      ? Product.fromPartial(object.product)
-      : undefined;
-    return message;
-  },
-};
-
 function createBaseProductIdRequest(): ProductIdRequest {
   return { id: "" };
 }
@@ -449,6 +359,489 @@ export const Empty: MessageFns<Empty> = {
   },
 };
 
+function createBaseBlStack(): BlStack {
+  return { method: "", message: "" };
+}
+
+export const BlStack: MessageFns<BlStack> = {
+  encode(message: BlStack, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.method !== "") {
+      writer.uint32(10).string(message.method);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BlStack {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBlStack();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.method = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BlStack {
+    return {
+      method: isSet(object.method) ? globalThis.String(object.method) : "",
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+    };
+  },
+
+  toJSON(message: BlStack): unknown {
+    const obj: any = {};
+    if (message.method !== "") {
+      obj.method = message.method;
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<BlStack>): BlStack {
+    return BlStack.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<BlStack>): BlStack {
+    const message = createBaseBlStack();
+    message.method = object.method ?? "";
+    message.message = object.message ?? "";
+    return message;
+  },
+};
+
+function createBaseCreateProductResponse(): CreateProductResponse {
+  return { success: false, serviceName: "", layer: "", code: "", blStack: undefined, data: undefined };
+}
+
+export const CreateProductResponse: MessageFns<CreateProductResponse> = {
+  encode(message: CreateProductResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.success !== false) {
+      writer.uint32(8).bool(message.success);
+    }
+    if (message.serviceName !== "") {
+      writer.uint32(18).string(message.serviceName);
+    }
+    if (message.layer !== "") {
+      writer.uint32(26).string(message.layer);
+    }
+    if (message.code !== "") {
+      writer.uint32(34).string(message.code);
+    }
+    if (message.blStack !== undefined) {
+      BlStack.encode(message.blStack, writer.uint32(42).fork()).join();
+    }
+    if (message.data !== undefined) {
+      Product.encode(message.data, writer.uint32(50).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateProductResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateProductResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.success = reader.bool();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.serviceName = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.layer = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.code = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.blStack = BlStack.decode(reader, reader.uint32());
+          continue;
+        case 6:
+          if (tag !== 50) {
+            break;
+          }
+
+          message.data = Product.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateProductResponse {
+    return {
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
+      serviceName: isSet(object.serviceName) ? globalThis.String(object.serviceName) : "",
+      layer: isSet(object.layer) ? globalThis.String(object.layer) : "",
+      code: isSet(object.code) ? globalThis.String(object.code) : "",
+      blStack: isSet(object.blStack) ? BlStack.fromJSON(object.blStack) : undefined,
+      data: isSet(object.data) ? Product.fromJSON(object.data) : undefined,
+    };
+  },
+
+  toJSON(message: CreateProductResponse): unknown {
+    const obj: any = {};
+    if (message.success !== false) {
+      obj.success = message.success;
+    }
+    if (message.serviceName !== "") {
+      obj.serviceName = message.serviceName;
+    }
+    if (message.layer !== "") {
+      obj.layer = message.layer;
+    }
+    if (message.code !== "") {
+      obj.code = message.code;
+    }
+    if (message.blStack !== undefined) {
+      obj.blStack = BlStack.toJSON(message.blStack);
+    }
+    if (message.data !== undefined) {
+      obj.data = Product.toJSON(message.data);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<CreateProductResponse>): CreateProductResponse {
+    return CreateProductResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<CreateProductResponse>): CreateProductResponse {
+    const message = createBaseCreateProductResponse();
+    message.success = object.success ?? false;
+    message.serviceName = object.serviceName ?? "";
+    message.layer = object.layer ?? "";
+    message.code = object.code ?? "";
+    message.blStack = (object.blStack !== undefined && object.blStack !== null)
+      ? BlStack.fromPartial(object.blStack)
+      : undefined;
+    message.data = (object.data !== undefined && object.data !== null) ? Product.fromPartial(object.data) : undefined;
+    return message;
+  },
+};
+
+function createBaseGetAllProductsResponse(): GetAllProductsResponse {
+  return { success: false, serviceName: "", layer: "", code: "", blStack: undefined, data: [] };
+}
+
+export const GetAllProductsResponse: MessageFns<GetAllProductsResponse> = {
+  encode(message: GetAllProductsResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.success !== false) {
+      writer.uint32(8).bool(message.success);
+    }
+    if (message.serviceName !== "") {
+      writer.uint32(18).string(message.serviceName);
+    }
+    if (message.layer !== "") {
+      writer.uint32(26).string(message.layer);
+    }
+    if (message.code !== "") {
+      writer.uint32(34).string(message.code);
+    }
+    if (message.blStack !== undefined) {
+      BlStack.encode(message.blStack, writer.uint32(42).fork()).join();
+    }
+    for (const v of message.data) {
+      Product.encode(v!, writer.uint32(50).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetAllProductsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetAllProductsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.success = reader.bool();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.serviceName = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.layer = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.code = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.blStack = BlStack.decode(reader, reader.uint32());
+          continue;
+        case 6:
+          if (tag !== 50) {
+            break;
+          }
+
+          message.data.push(Product.decode(reader, reader.uint32()));
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetAllProductsResponse {
+    return {
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
+      serviceName: isSet(object.serviceName) ? globalThis.String(object.serviceName) : "",
+      layer: isSet(object.layer) ? globalThis.String(object.layer) : "",
+      code: isSet(object.code) ? globalThis.String(object.code) : "",
+      blStack: isSet(object.blStack) ? BlStack.fromJSON(object.blStack) : undefined,
+      data: globalThis.Array.isArray(object?.data) ? object.data.map((e: any) => Product.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: GetAllProductsResponse): unknown {
+    const obj: any = {};
+    if (message.success !== false) {
+      obj.success = message.success;
+    }
+    if (message.serviceName !== "") {
+      obj.serviceName = message.serviceName;
+    }
+    if (message.layer !== "") {
+      obj.layer = message.layer;
+    }
+    if (message.code !== "") {
+      obj.code = message.code;
+    }
+    if (message.blStack !== undefined) {
+      obj.blStack = BlStack.toJSON(message.blStack);
+    }
+    if (message.data?.length) {
+      obj.data = message.data.map((e) => Product.toJSON(e));
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<GetAllProductsResponse>): GetAllProductsResponse {
+    return GetAllProductsResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<GetAllProductsResponse>): GetAllProductsResponse {
+    const message = createBaseGetAllProductsResponse();
+    message.success = object.success ?? false;
+    message.serviceName = object.serviceName ?? "";
+    message.layer = object.layer ?? "";
+    message.code = object.code ?? "";
+    message.blStack = (object.blStack !== undefined && object.blStack !== null)
+      ? BlStack.fromPartial(object.blStack)
+      : undefined;
+    message.data = object.data?.map((e) => Product.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseGetProductByIdResponse(): GetProductByIdResponse {
+  return { success: false, serviceName: "", layer: "", code: "", blStack: undefined, data: undefined };
+}
+
+export const GetProductByIdResponse: MessageFns<GetProductByIdResponse> = {
+  encode(message: GetProductByIdResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.success !== false) {
+      writer.uint32(8).bool(message.success);
+    }
+    if (message.serviceName !== "") {
+      writer.uint32(18).string(message.serviceName);
+    }
+    if (message.layer !== "") {
+      writer.uint32(26).string(message.layer);
+    }
+    if (message.code !== "") {
+      writer.uint32(34).string(message.code);
+    }
+    if (message.blStack !== undefined) {
+      BlStack.encode(message.blStack, writer.uint32(42).fork()).join();
+    }
+    if (message.data !== undefined) {
+      Product.encode(message.data, writer.uint32(50).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetProductByIdResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetProductByIdResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.success = reader.bool();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.serviceName = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.layer = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.code = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.blStack = BlStack.decode(reader, reader.uint32());
+          continue;
+        case 6:
+          if (tag !== 50) {
+            break;
+          }
+
+          message.data = Product.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetProductByIdResponse {
+    return {
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
+      serviceName: isSet(object.serviceName) ? globalThis.String(object.serviceName) : "",
+      layer: isSet(object.layer) ? globalThis.String(object.layer) : "",
+      code: isSet(object.code) ? globalThis.String(object.code) : "",
+      blStack: isSet(object.blStack) ? BlStack.fromJSON(object.blStack) : undefined,
+      data: isSet(object.data) ? Product.fromJSON(object.data) : undefined,
+    };
+  },
+
+  toJSON(message: GetProductByIdResponse): unknown {
+    const obj: any = {};
+    if (message.success !== false) {
+      obj.success = message.success;
+    }
+    if (message.serviceName !== "") {
+      obj.serviceName = message.serviceName;
+    }
+    if (message.layer !== "") {
+      obj.layer = message.layer;
+    }
+    if (message.code !== "") {
+      obj.code = message.code;
+    }
+    if (message.blStack !== undefined) {
+      obj.blStack = BlStack.toJSON(message.blStack);
+    }
+    if (message.data !== undefined) {
+      obj.data = Product.toJSON(message.data);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<GetProductByIdResponse>): GetProductByIdResponse {
+    return GetProductByIdResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<GetProductByIdResponse>): GetProductByIdResponse {
+    const message = createBaseGetProductByIdResponse();
+    message.success = object.success ?? false;
+    message.serviceName = object.serviceName ?? "";
+    message.layer = object.layer ?? "";
+    message.code = object.code ?? "";
+    message.blStack = (object.blStack !== undefined && object.blStack !== null)
+      ? BlStack.fromPartial(object.blStack)
+      : undefined;
+    message.data = (object.data !== undefined && object.data !== null) ? Product.fromPartial(object.data) : undefined;
+    return message;
+  },
+};
+
+/** Define the ProductService service */
 export type ProductServiceDefinition = typeof ProductServiceDefinition;
 export const ProductServiceDefinition = {
   name: "ProductService",
@@ -458,7 +851,7 @@ export const ProductServiceDefinition = {
       name: "CreateProduct",
       requestType: CreateProductRequest,
       requestStream: false,
-      responseType: ProductResponse,
+      responseType: CreateProductResponse,
       responseStream: false,
       options: {},
     },
@@ -466,7 +859,7 @@ export const ProductServiceDefinition = {
       name: "GetProductById",
       requestType: ProductIdRequest,
       requestStream: false,
-      responseType: ProductResponse,
+      responseType: GetProductByIdResponse,
       responseStream: false,
       options: {},
     },
@@ -474,7 +867,7 @@ export const ProductServiceDefinition = {
       name: "GetAllProducts",
       requestType: Empty,
       requestStream: false,
-      responseType: ProductListResponse,
+      responseType: GetAllProductsResponse,
       responseStream: false,
       options: {},
     },
@@ -485,24 +878,24 @@ export interface ProductServiceImplementation<CallContextExt = {}> {
   createProduct(
     request: CreateProductRequest,
     context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<ProductResponse>>;
+  ): Promise<DeepPartial<CreateProductResponse>>;
   getProductById(
     request: ProductIdRequest,
     context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<ProductResponse>>;
-  getAllProducts(request: Empty, context: CallContext & CallContextExt): Promise<DeepPartial<ProductListResponse>>;
+  ): Promise<DeepPartial<GetProductByIdResponse>>;
+  getAllProducts(request: Empty, context: CallContext & CallContextExt): Promise<DeepPartial<GetAllProductsResponse>>;
 }
 
 export interface ProductServiceClient<CallOptionsExt = {}> {
   createProduct(
     request: DeepPartial<CreateProductRequest>,
     options?: CallOptions & CallOptionsExt,
-  ): Promise<ProductResponse>;
+  ): Promise<CreateProductResponse>;
   getProductById(
     request: DeepPartial<ProductIdRequest>,
     options?: CallOptions & CallOptionsExt,
-  ): Promise<ProductResponse>;
-  getAllProducts(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): Promise<ProductListResponse>;
+  ): Promise<GetProductByIdResponse>;
+  getAllProducts(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): Promise<GetAllProductsResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

@@ -23,8 +23,7 @@ export const SignInWithProvider = memo(({
 
 
     const handleSignIn: MouseEventHandler<HTMLButtonElement> = async (event) => {
-        const signInRes = await signIn(provider);
-        console.log(signInRes);
+        await signIn(provider);
 
         if (onClick) onClick(event);
     }

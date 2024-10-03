@@ -1,12 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server';
 import { productClient } from '../../../../../../../shared/grpc/clients';
 
-export async function handleGET(
-  req: NextRequest,
-  { params: { id } }: { params: { id: string } },
+export const GET = async function handleGET(
+    req: NextRequest,
+    { params: { id } }: { params: { id: string } },
 ) {
-  const { product } = await productClient.getProductById({ id });
-  return NextResponse.json({ data: product }, { status: 200 });
-}
-
-export const GET = handleGET;
+  const response = await productClient.getProductById({ id });
+  return NextResponse.json(response, { status: 200 });
+};

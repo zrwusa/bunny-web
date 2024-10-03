@@ -4,7 +4,7 @@ const getAccessToken = () => localStorage.getItem('accessToken');
 const getRefreshToken = () => localStorage.getItem('refreshToken');
 const setAccessToken = (token: string) =>
   localStorage.setItem('accessToken', token);
-const PASSPORT_BASE_URL = `http://localhost:9090`;
+const PASSPORT_BASE_URL = `http://localhost:8080`;
 
 const refreshAccessToken = async () => {
   const refreshToken = getRefreshToken();

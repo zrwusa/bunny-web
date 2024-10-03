@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from '../../grpc/generated/product';
 
 interface ExampleState {
-  data: any;
+  data: Product[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ExampleState = {
-  data: null,
+  data: [],
   loading: false,
   error: null,
 };
@@ -32,5 +33,6 @@ const exampleSlice = createSlice({
   },
 });
 
-export const { fetchData, fetchDataSuccess, fetchDataFailure } = exampleSlice.actions;
+export const { fetchData, fetchDataSuccess, fetchDataFailure } =
+  exampleSlice.actions;
 export default exampleSlice.reducer;

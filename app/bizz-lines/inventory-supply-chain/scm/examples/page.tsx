@@ -1,7 +1,7 @@
 import { ReactQueryExample } from '../components/examples/react-query';
 import ReduxSagaExample from '../components/examples/redux-saga';
 
-export const Examples = () => {
+const Examples = () => {
   return (
     <div>
       <ReduxSagaExample />

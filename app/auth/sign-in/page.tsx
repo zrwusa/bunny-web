@@ -2,13 +2,16 @@ import {
   SignInViaBackend,
   SignInWithProvider,
 } from '../../../shared/components/auth/sign-in';
+import { Suspense } from 'react';
 
 const Auth = () => {
   return (
     <section>
-      <SignInViaBackend />
-      <SignInWithProvider />
-      <SignInWithProvider provider="github" />
+        <Suspense>
+            <SignInViaBackend />
+            <SignInWithProvider />
+            <SignInWithProvider provider="github" />
+        </Suspense>
     </section>
   );
 };
